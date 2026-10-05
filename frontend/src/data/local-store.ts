@@ -29,6 +29,39 @@ function readStorage(): Record<string, EntryRow[]> {
 
 let cache: Record<string, EntryRow[]> | null = null
 
+// 旁路：闸门调度域有自己的集合（开度口径、改动留痕、操作锁），直接按 key 读写，不走业务表缓存。
+const RAW_PREFIX = 'drainage-pump:'
+
+export function readJson<T>(key: string, fallback: T): T {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return clone(fallback)
+  }
+  const raw = window.localStorage.getItem(RAW_PREFIX + key)
+  if (!raw) {
+    window.localStorage.setItem(RAW_PREFIX + key, JSON.stringify(fallback))
+    return clone(fallback)
+  }
+  try {
+    return JSON.parse(raw) as T
+  } catch {
+    window.localStorage.setItem(RAW_PREFIX + key, JSON.stringify(fallback))
+    return clone(fallback)
+  }
+}
+
+export function writeJson<T>(key: string, value: T): void {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return
+  }
+  window.localStorage.setItem(RAW_PREFIX + key, JSON.stringify(value))
+}
+
+// 放弃内存缓存重新从 localStorage 读：用来检测别人（另一标签页/另一操作人）刚刚写进去的版本。
+export function reloadCache(): Record<string, EntryRow[]> {
+  cache = null
+  return allRows()
+}
+
 export function allRows(): Record<string, EntryRow[]> {
   if (cache === null) {
     cache = readStorage()

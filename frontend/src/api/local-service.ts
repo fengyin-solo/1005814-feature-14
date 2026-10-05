@@ -43,6 +43,10 @@ export function runAction(key: string, id: number, action: string): ActionResult
   if (current === target) {
     return { ok: false, message: `${meta.entity}已经是「${target}」，不用重复操作` }
   }
+  // 闸门调度走独立域服务（口径校验、观察、互斥锁、留痕），通用动作不允许直接改它的状态。
+  if (key === 'floodgate' && rows[index].__domain === 'gate-domain-v1') {
+    return { ok: false, message: '闸门调度单请到「闸门调度」页按口径与状态流转操作，不能在这里直接改状态' }
+  }
   const lastStatus = meta.statuses[meta.statuses.length - 1]
   const updated: EntryRow = {
     ...rows[index],
@@ -65,8 +69,9 @@ export function exportEntries(key: string): { filename: string; content: string 
   const meta = moduleMeta(key)
   const header = ['编号', ...meta.fields, '当前状态']
   const lines = [header.join(',')]
+  const clean = (value: unknown) => String(value ?? '').replace(/[",\n]/g, (m) => (m === '"' ? '""' : `'`))
   for (const row of listRows(key)) {
-    lines.push([row.id, ...meta.fields.map((field) => row[field] ?? ''), row.status].join(','))
+    lines.push([row.id, ...meta.fields.map((field) => clean(row[field])), clean(row.status)].join(','))
   }
   return { filename: `${meta.name}-清单.csv`, content: `\uFEFF${lines.join('\n')}` }
 }

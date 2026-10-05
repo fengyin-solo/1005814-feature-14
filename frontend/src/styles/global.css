@@ -35,3 +35,22 @@ body { margin: 0; background: #f6f8fb; color: #1f2937; }
 .error-text { color: #b42318; }
 .status-legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 10px; font-size: 12px; color: var(--muted); }
 .legend-item { background: #eef2f7; border-radius: 999px; padding: 2px 10px; }
+.gate-tabs { display: flex; gap: 8px; margin: 8px 0 12px; }
+.gate-tab { border: 1px solid var(--border); background: #fff; border-radius: 6px; padding: 6px 14px; cursor: pointer; font-size: 13px; }
+.gate-tab.active { background: var(--brand); border-color: var(--brand); color: #fff; }
+.gate-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 14px; }
+.gate-panel h3 { margin: 0 0 10px; font-size: 14px; }
+.gate-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px 12px; align-items: end; }
+.gate-form label span { display: block; font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+.gate-form input { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font-size: 13px; }
+.gate-form .form-actions { display: flex; gap: 8px; }
+.badge { display: inline-block; border-radius: 999px; padding: 1px 8px; font-size: 12px; }
+.badge.warn { background: #fef3c7; color: #92400e; }
+.badge.bad { background: #fee2e2; color: #b42318; }
+.badge.ok { background: #dcfce7; color: #166534; }
+.badge.info { background: #dbeafe; color: #1e40af; }
+.subtle { color: var(--muted); font-size: 12px; }
+.toolbar-line { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.toolbar-line select, .toolbar-line input { border: 1px solid var(--border); border-radius: 6px; padding: 5px 8px; font-size: 13px; }
+.gate-table-wrap { overflow-x: auto; }
+.ok-text { color: #166534; }
