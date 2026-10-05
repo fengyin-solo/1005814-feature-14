@@ -54,6 +54,11 @@ export function resetRows(key: string): EntryRow[] {
   return rows
 }
 
+// 丢掉内存缓存，下次读取重新走 localStorage：别的标签页改过的数据这里能立刻看到。
+export function refreshRows(): void {
+  cache = null
+}
+
 export function storageKey(): string {
   return STORAGE_KEY
 }

@@ -82,7 +82,7 @@ import {
 import type { EntryRow } from '@/data/types'
 
 const meta = moduleMeta('rescueteam')
-const columns = ["任务编号", "任务类型", "目标点位", "抢险队", "出队时间", "归队时间", "负责人", "任务状态"]
+const columns = ["任务编号", "任务类型", "目标点位", "抢险队", "出队时间", "归队时间", "负责人", "处置结论", "任务状态"]
 const actions = ["派出抢险", "确认归队", "终止任务"]
 const statuses = ["待派队", "抢险中", "已归队", "已终止"]
 const stats = [{"label": "待派队任务", "value": 0}, {"label": "抢险中任务", "value": 0}, {"label": "已归队任务", "value": 0}]
